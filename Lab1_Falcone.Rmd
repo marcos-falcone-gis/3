@@ -1,0 +1,62 @@
+---
+title: "Lab1_Falcone"
+author: "Marcos Falcone (GIS 3)"
+date: "April 9, 2020"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+# Checking version:
+```{r}
+version
+```
+
+# Installing packages:
+```{r}
+install.packages("sf")
+install.packages("sp")
+install.packages("spData")
+install.packages("spDataLarge")
+install.packages("lwgeom")
+```
+
+# Loading libraries:
+```{r, echo=TRUE, eval=FALSE}
+library(sf)         
+library(sp)    
+library(spData)        
+library(spDataLarge)
+library(lwgeom)
+```
+
+# Code from the book showing information for a specific point:
+```{r}
+library(sf) 
+lnd_point = st_point(c(0.1, 51.5))                 # point creation, with  longitude and latitude
+lnd_geom = st_sfc(lnd_point, crs = 4326)           # setting CRS
+lnd_attrib = data.frame(                           # inputting information on point
+  name = "London",
+  temperature = 25,
+  date = as.Date("2017-06-21")
+)
+lnd_sf = st_sf(lnd_attrib, geometry = lnd_geom)    # merging previous data
+lnd_sf
+```
+
+# Code from the book showing information of a country (polygon):
+```{r}
+library(spData)
+luxembourg = world[world$name_long == "Luxembourg", ]
+units::set_units(st_area(luxembourg), km^2) # sets units to kilometers
+```
+
+# Adapted code used to map Nigeria in context:
+```{r}
+world_africa = world[world$continent == "Africa", ]
+nigeria = world[world$name_long == "Nigeria", ]
+plot(st_geometry(nigeria), expandBB = c(0.1, 0.05, 0.1, 0.05), col = "orange", lwd = 1, main = "Nigeria in Context")
+plot(world_africa[0], add = TRUE)
+text(8.25, 9.25, labels="Nigeria")
+```
