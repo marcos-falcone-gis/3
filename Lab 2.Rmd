@@ -1,0 +1,47 @@
+---
+title: "Lab 2 - US States"
+author: Marcos Falcone
+output: pdf_document
+---
+
+## Loading Libraries
+
+I will be using the US States spatial dataset that is included in the spData package.
+
+```{r}
+library(sf)
+library(spData)
+```
+
+## Summary Statistics
+
+Seven variables are included in the summary statistics below: 
+
+• GEOID: geographic identifiers 
+• NAME: state names
+• REGION: region names
+• AREA: area in square kilometers
+• total_pop_10: total population in 2010
+• total_pop_15: total population in 2015 
+• geometry: type of geometry (sfc_MULTIPOLYGON)
+
+```{r}
+summary(us_states)
+sapply(us_states,class)
+```
+
+## Plots
+
+A histogram that shows population values for US states in 2015 in squared kilometres is provided below. I had an issue when making this plot, which was that the standard way to produce a histogram (without the 'with' at the beginning) didn't work. What happens is that, when I run it, it keeps saying that the variable needs to be numeric, which according to the chunk code that contains the summary of the variables it actually is. To troubleshoot, I tried to then coerce the variable into being treated as numeric using the as.numeric function, but that doesn't work as it keeps returning "(list) object cannot be coerced to type 'double'". For some reason, the way that I ended up producing the plot did not make it possible for me to make any of the modifications that I intended to produce (such as modifying the title, changing the number of bins, or adding color to the columns).
+
+```{r, echo=FALSE}
+options(scipen=999) # removes scientific notation
+with(us_states, hist(total_pop_15), breaks=10, col = 'skyblue3', main="Histogram of 2015 Population by US State")
+```
+
+A map of US states ranked in terms of total 2015 population is shown below.
+
+```{r, echo=FALSE}
+options(scipen=999) # removes scientific notation
+p = plot(us_states["total_pop_15"], main="2015 Population by US State")
+```
